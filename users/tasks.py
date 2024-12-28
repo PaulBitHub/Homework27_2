@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 @shared_task
 def deactivate_inactive_users():
     one_month_ago = timezone.now() - timedelta(days=30)

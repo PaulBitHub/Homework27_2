@@ -7,17 +7,17 @@ from .models import User, UserPayment
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'phone', 'city', 'avatar']
+        fields = ["id", "email", "first_name", "phone", "city", "avatar"]
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'city', 'avatar']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ["id", "email", "first_name", "last_name", "phone", "city", "avatar"]
+        extra_kwargs = {"password": {"write_only": True}}
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('password', None)
+        password = validated_data.pop("password", None)
         if password:
             instance.set_password(password)
         return super().update(instance, validated_data)
@@ -26,8 +26,16 @@ class UserDetailSerializer(serializers.ModelSerializer):
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name', 'phone', 'city', 'avatar']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = [
+            "email",
+            "password",
+            "first_name",
+            "last_name",
+            "phone",
+            "city",
+            "avatar",
+        ]
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -37,7 +45,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserPaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPayment
-        fields = '__all__'
+        fields = "__all__"
 
 
 class UserCreateView(generics.CreateAPIView):
@@ -50,10 +58,10 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserDetailSerializer
     permission_classes = [permissions.IsAuthenticated]
-    lookup_field = 'id'
+    lookup_field = "id"
 
     def get_serializer_class(self):
-        if self.request.user.id == self.kwargs['id']:
+        if self.request.user.id == self.kwargs["id"]:
             return UserDetailSerializer
         return UserSerializer
 

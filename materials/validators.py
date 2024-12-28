@@ -8,8 +8,8 @@ def validate_youtube_url(value):
     try:
         url_validator(value)
     except ValidationError:
-        raise ValidationError('Введите корректный URL.')
+        raise ValidationError("Введите корректный URL.")
 
     domain = urlparse(value).netloc
-    if domain != 'youtube.com' and domain != 'www.youtube.com':
-        raise ValidationError('Разрешены только ссылки на youtube.com')
+    if domain != "youtube.com" and domain != "www.youtube.com":
+        raise ValidationError("Разрешены только ссылки на youtube.com")
